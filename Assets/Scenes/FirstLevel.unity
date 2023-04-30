@@ -1127,13 +1127,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 01b5cec0dfe47fc439088aa513641c2b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  tag: 
   value: 
+  itemDictionary:
+    _pairs:
+    - _key: {fileID: 0}
+      _value:
+        m_PersistentCalls:
+          m_Calls: []
   onInteract:
     m_PersistentCalls:
       m_Calls: []
   test: {fileID: 1281181306}
-  lastInventorySlot: 
 --- !u!212 &699600778
 SpriteRenderer:
   m_ObjectHideFlags: 0

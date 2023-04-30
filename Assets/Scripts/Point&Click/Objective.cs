@@ -6,9 +6,12 @@ using UnityEngine.Events;
 
 namespace DUFE.PointAndClick
 {
-    [RequireComponent(typeof(DragAndDrop))]
+    [RequireComponent(typeof(InteractiveSpace))]
     public class Objective : MonoBehaviour
     {
+        [Header("Sentences shown on ending screen")]
+        public string objectiveName;
+        public string objectiveResult;
         [Header("Value of the money lost")]
         public float moneyValue; 
         [Header("Event on item drop")]

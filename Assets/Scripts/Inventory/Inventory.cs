@@ -48,6 +48,11 @@ namespace DUFE.Inventory
             items.Add(inventorySlot);
         }
 
+        internal void addItem(InventorySlotSO item)
+        {
+            InventorySlot g = new(item.itemName, item.icon, item.tags, item.itemValue);
+            items.Add(g);
+        }
         public void removeItem(InventorySlot inventorySlot)
         {
             items.Remove(inventorySlot);

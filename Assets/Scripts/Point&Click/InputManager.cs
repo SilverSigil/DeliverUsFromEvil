@@ -4,6 +4,7 @@ using UnityEngine;
 
 /// <summary>
 /// Detect a collision from the UI to the 2d objects. 
+/// Also used to add actions 
 /// </summary>
 public class InputManager : MonoBehaviour
 {
@@ -28,7 +29,7 @@ public class InputManager : MonoBehaviour
             RaycastHit hit; 
             if(Physics.Raycast(ray, out hit, 100))
             {
-                if (hit.collider.GetComponent<IINteractable>() == true)
+                if (hit.collider.GetComponent<IINteractable>()!=null)
                 {
                     Debug.Log(hit.collider.gameObject.name);
                 }

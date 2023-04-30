@@ -5,7 +5,8 @@ using UnityEngine;
 namespace DUFE.Inventory
 {
     [Serializable]
-    public class InventorySlotSO
+    [CreateAssetMenu(fileName = "Inventory", menuName = "ScriptableObject/InventoryItem", order = 100)]
+    public class InventorySlotSO : ScriptableObject
     {
         public string itemName;
         public float itemValue;

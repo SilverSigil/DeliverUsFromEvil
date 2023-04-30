@@ -1,6 +1,10 @@
+using DUFE.Core;
+using DUFE.Inventory;
+using SerializableDictionary.Scripts;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using TMPro;
 using UnityEngine;
 using UnityEngine.Events;
@@ -9,13 +13,15 @@ using UnityEngine.EventSystems;
 namespace DUFE.PointAndClick.Drag
 {
 
-public class InteractiveSpace : MonoBehaviour, IDropHandler
+public class InteractiveSpace : MonoBehaviour, IDropHandler, IINteractable
     {
-        public new string tag;
         public string value;
-        public UnityEvent onInteract;
+        [Header("List of event per item")]
+        [SerializeField] private SerializableDictionary<InventorySlotSO, UnityEvent> itemDictionary;
+        [Space()]
+        [Header("Event on item drop")]
+        public UnityEvent interactEvent;
         public TextMeshProUGUI test; 
-        public string lastInventorySlot; 
 
         void Start()
         {
@@ -32,18 +38,20 @@ public class InteractiveSpace : MonoBehaviour, IDropHandler
             }
         }
 
-        internal void Interact(Inventory.InventorySlot inventorySlot)
+        internal void onInteract(Inventory.InventorySlot inventorySlot)
         {
-            lastInventorySlot = inventorySlot.itemName;
-            getLastInventorySlot();
-            onInteract?.Invoke();
+            ///We look for the value
+            ///If we find it, we can asssume it's an object that's supposed to create an outcome
+            if(itemDictionary.Dictionary.Keys.Where(x=>x.itemName == inventorySlot.itemName).First() != null)
+            {
+                FindAnyObjectByType<SceneManager>().addObjective(GetComponent<Objective>()); 
+            }
+            interactEvent?.Invoke();
         }
 
-        ///for debug
-        ///
-        public void getLastInventorySlot()
+        public void onInteract()
         {
-            test.text = "last interaction with " + lastInventorySlot;
+            Debug.Log("interaction");
         }
     }
 

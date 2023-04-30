@@ -49,9 +49,24 @@ namespace DUFE.Core
 
                 if (timeRemaining <= 0f)
                 {
+                    showResultEnd(); 
                     end?.Invoke(); 
                 }
             }
+        }
+
+        private void showResultEnd()
+        {
+            foreach(Objective c in objectives)
+            {
+
+            }
+            resultWindow.SetActive(true); 
+        }
+
+        internal void addObjective(Objective objective)
+        {
+            throw new NotImplementedException();
         }
 
         public void startScene()

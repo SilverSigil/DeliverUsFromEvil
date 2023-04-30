@@ -62,7 +62,7 @@ namespace DUFE.PointAndClick.Drag
                 Debug.Log("hit");
                 if (rayHit.collider.GetComponent<InteractiveSpace>() == true)
                 {
-                    rayHit.collider.GetComponent<InteractiveSpace>().Interact(GetComponent<InventorySlot>());
+                    rayHit.collider.GetComponent<InteractiveSpace>().onInteract(GetComponent<InventorySlot>());
                     Destroy(gameObject);
                 }
                 else
