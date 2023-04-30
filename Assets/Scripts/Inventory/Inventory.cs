@@ -13,7 +13,8 @@ namespace DUFE.Inventory
         [Header("Default Inventory List")]
         public InventorySO inventoryList;
         [Header("Current inventory")]
-        public List<InventorySlot> items = new List<InventorySlot>();
+        public List<InventorySlotSO> items = new List<InventorySlotSO>();
+
         [Header("Prefab InventorySlot")]
         public GameObject itemSlot;
         [Header("Scene reference")]
@@ -25,8 +26,8 @@ namespace DUFE.Inventory
             {
                 foreach (InventorySlotSO item in inventoryList.inventoryItems)
                 {
+                    addItem(item);
                     InventorySlot g = generateInventorySlot(item);
-                    addItem(g);
                 }
             }
         }
@@ -43,21 +44,22 @@ namespace DUFE.Inventory
             return g.GetComponent<InventorySlot>(); 
         }
 
-        public void addItem(InventorySlot inventorySlot)
+        public void addItem(InventorySlotSO inventorySlot)
         {
             items.Add(inventorySlot);
         }
 
-        internal void addItem(InventorySlotSO item)
-        {
-            InventorySlot g = new(item.itemName, item.icon, item.tags, item.itemValue);
-            items.Add(g);
-        }
-        public void removeItem(InventorySlot inventorySlot)
+        public void removeItem(InventorySlotSO inventorySlot)
         {
             items.Remove(inventorySlot);
         }
 
+
+        internal void addItemAndGenerate(InventorySlotSO item)
+        {
+            items.Add(item);
+            generateInventorySlot(item);
+        }
     }
 
 }

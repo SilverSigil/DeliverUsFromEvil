@@ -7,5 +7,5 @@ using UnityEngine;
 /// </summary>
 public interface IINteractable
 {
-    void onInteract(); 
+    void OnInteract(); 
 }

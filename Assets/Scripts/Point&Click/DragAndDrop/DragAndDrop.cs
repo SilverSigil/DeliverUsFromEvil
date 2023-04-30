@@ -61,8 +61,18 @@ namespace DUFE.PointAndClick.Drag
                 Debug.Log("hit");
                 if (rayHit.collider.GetComponent<InteractiveSpace>() == true)
                 {
-                    rayHit.collider.GetComponent<InteractiveSpace>().onInteract(GetComponent<InventorySlot>());
-                    Destroy(gameObject);
+                    bool b  = rayHit.collider.GetComponent<InteractiveSpace>().OnInteract(GetComponent<InventorySlot>());
+                    //If we reached an outcome, destroy item
+                    if (b)
+                    {
+                        Destroy(gameObject);
+                    } else
+                    {
+
+                        LayoutRebuilder.ForceRebuildLayoutImmediate(parent.GetComponent<RectTransform>());
+                        transform.localPosition = defaultPos;
+                        LayoutRebuilder.ForceRebuildLayoutImmediate(parent.GetComponent<RectTransform>());
+                    }
                 }
                 else
                 {

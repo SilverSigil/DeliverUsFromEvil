@@ -34,8 +34,17 @@ namespace SerializableDictionary.Scripts
 
                 _dictionary = new Dictionary<TKey, TValue>(_pairs.Length);
                 for (int i = 0; i < _pairs.Length; i++)
-                    _dictionary.Add(_pairs[i].Key, _pairs[i].Value);
+                {
+                    Debug.Log(_pairs[i]);
+                    if (_pairs[i].Value == null)
+                    {
+                        _dictionary.Add(_pairs[i].Key, default(TValue));
 
+                    } else
+                    {
+                        _dictionary.Add(_pairs[i].Key, _pairs[i].Value);
+                    }
+                }
                 return _dictionary;
             }
         }

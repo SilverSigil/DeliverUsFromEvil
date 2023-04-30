@@ -19,20 +19,21 @@ public class InputManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        Vector3 worldPosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-        Vector3 mousePos = Input.mousePosition; 
-        mousePos = cam.ScreenToWorldPoint(mousePos);
+
 
         if (Input.GetMouseButtonDown(0))
         {
-            Ray ray = cam.ScreenPointToRay(mousePos);
-            RaycastHit hit; 
-            if(Physics.Raycast(ray, out hit, 100))
+            RaycastHit2D rayHit = Physics2D.GetRayIntersection(Camera.main.ScreenPointToRay(Input.mousePosition));
             {
-                if (hit.collider.GetComponent<IINteractable>()!=null)
+                if (rayHit.collider)
                 {
-                    Debug.Log(hit.collider.gameObject.name);
+
+                    if (rayHit.collider.GetComponent<IINteractable>() != null)
+                    {
+                        rayHit.collider.GetComponent<IINteractable>().OnInteract();
+                    }
                 }
+
             }
         }
     }

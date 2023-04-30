@@ -9,22 +9,25 @@ namespace DUFE.Audio
 {
     public class AudioManager : MonoBehaviour
     {
-
+        public AudioSource sourceUI;
+        public AudioSource sourceSFX;
+        public AudioSource sourceMusic; 
         public AudioMixer _MasterMixer;
 
         public void SetMasterVolume(Slider volume)
         {
-            _MasterMixer.SetFloat("Master", volume.value);
+            _MasterMixer.SetFloat("Master", Mathf.Log(volume.value) * 20);
         }
 
         public void SetMusicVolume(Slider volume)
         {
-            _MasterMixer.SetFloat("Music", volume.value);
+
+            _MasterMixer.SetFloat("Music", Mathf.Log(volume.value) * 20);
         }
 
         public void SetSFXVolume(Slider volume)
         {
-            _MasterMixer.SetFloat("SFX", volume.value);
+            _MasterMixer.SetFloat("SFX", Mathf.Log(volume.value) * 20);
         }
 
         /// <summary>
@@ -39,20 +42,24 @@ namespace DUFE.Audio
 
         IEnumerator fade(float end, float time)
         {
-            float vol;
-            _MasterMixer.GetFloat("Master", out vol);
-
-            while (vol > end)
+            float currentTime = 0;
+            float currentVol;
+            _MasterMixer.GetFloat("Master", out currentVol);
+            currentVol = Mathf.Pow(10, currentVol / 20);
+            float targetValue = Mathf.Clamp(Mathf.Pow(10, end / 20), 0.0001f, 1);
+            while (currentTime < time)
             {
-                _MasterMixer.GetFloat("Master", out vol);
-                _MasterMixer.SetFloat("Master", Mathf.Lerp(vol, end, time * Time.deltaTime));
-                yield return 0f;
+                currentTime += Time.deltaTime;
+                float newVol = Mathf.Lerp(currentVol, targetValue, currentTime / time);
+                _MasterMixer.SetFloat("Master", Mathf.Log10(newVol) * 20);
+                yield return null;
             }
+            yield break;
         }
 
         public void SetUIVolume(Slider volume)
         {
-            _MasterMixer.SetFloat("UI", volume.value);
+            _MasterMixer.SetFloat("UI", Mathf.Log(volume.value) * 20);
         }
 
     }

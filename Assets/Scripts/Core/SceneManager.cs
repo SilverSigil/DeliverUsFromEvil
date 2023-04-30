@@ -1,3 +1,4 @@
+using DUFE.Audio;
 using DUFE.PointAndClick;
 using System;
 using System.Collections;
@@ -31,8 +32,14 @@ namespace DUFE.Core
         public TextMeshProUGUI companytxt; 
         public TextMeshProUGUI objectiveTxt;
         public TextMeshProUGUI timeTxt;
+        [Header("Result reference")]
         public GameObject resultWindow; 
         public CanvasGroup mainCanvas;
+        [Header("Objective reference")]
+        public GameObject objectiveParent;
+        [Header("Prefabs")]
+        public GameObject objectivePrefab;
+        private AudioManager am; 
 
         void Start()
         {
@@ -53,8 +60,7 @@ namespace DUFE.Core
 
                 if (timeRemaining <= 0f)
                 {
-                    showResultEnd(); 
-                    end?.Invoke(); 
+                    endScene(); 
                 }
             }
         }
@@ -63,7 +69,11 @@ namespace DUFE.Core
         {
             foreach(Objective c in objectives)
             {
-
+                GameObject g  = Instantiate(objectivePrefab, objectiveParent.transform);
+                g.GetComponent<ObjectiveView>().setName(c.objectiveName);
+                g.GetComponent<ObjectiveView>().setResult(c.objectiveResult);
+                g.GetComponent<ObjectiveView>().setMoneyLost(c.moneyValue);
+                g.SetActive(true);
             }
             resultWindow.SetActive(true); 
         }
@@ -73,6 +83,10 @@ namespace DUFE.Core
             objectives.Add(objective);
         }
 
+        public void endScene() {
+            showResultEnd();
+            end?.Invoke();
+        }
         public void startScene()
         {
             ///To avoid interaction before end of whatever comes first in scene

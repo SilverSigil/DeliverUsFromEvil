@@ -15,13 +15,12 @@ namespace DUFE.PointAndClick.Drag
 
 public class InteractiveSpace : MonoBehaviour, IDropHandler, IINteractable
     {
-        public string value;
-        [Header("List of event per item")]
-        [SerializeField] private SerializableDictionary<InventorySlotSO, UnityEvent> itemDictionary;
+        [Header("Item target for the outcome")]
+        [SerializeField] 
+        private InventorySlotSO itemTarget;
         [Space()]
         [Header("Event on item drop")]
         public UnityEvent interactEvent;
-        public TextMeshProUGUI test; 
 
         void Start()
         {
@@ -38,18 +37,22 @@ public class InteractiveSpace : MonoBehaviour, IDropHandler, IINteractable
             }
         }
 
-        internal void onInteract(Inventory.InventorySlot inventorySlot)
+        internal bool OnInteract(Inventory.InventorySlot inventorySlot)
         {
-            ///We look for the value
             ///If we find it, we can asssume it's an object that's supposed to create an outcome
-            if(itemDictionary.Dictionary.Keys.Where(x=>x.itemName == inventorySlot.itemName).First() != null)
+            if(itemTarget.itemName == inventorySlot.itemName)
             {
-                FindAnyObjectByType<SceneManager>().addObjective(GetComponent<Objective>()); 
+                Debug.Log("outcome reached");
+                FindAnyObjectByType<SceneManager>().addObjective(GetComponent<Objective>());
+                interactEvent?.Invoke();
+                return true; 
+            } else
+            {
+                return false; 
             }
-            interactEvent?.Invoke();
         }
 
-        public void onInteract()
+        public void OnInteract()
         {
             Debug.Log("interaction");
         }

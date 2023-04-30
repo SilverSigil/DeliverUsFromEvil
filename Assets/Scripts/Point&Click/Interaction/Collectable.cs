@@ -10,9 +10,10 @@ public class Collectable : MonoBehaviour, IINteractable
 {
     public InventorySlotSO item; 
 
-    public void onInteract()
+    public void OnInteract()
     {
-        FindObjectOfType<Inventory>().addItem(item);
+        FindObjectOfType<Inventory>().addItemAndGenerate(item);
+        Destroy(gameObject); 
     }
 
 }
