@@ -19,7 +19,7 @@ namespace DUFE.Scene
         void OnEnable()
         {
             AudioManager m = FindObjectOfType<AudioManager>();
-            m.FadeVol(0, 1);
+            m.FadeVol(1, 1);
 
 
         }
@@ -43,7 +43,7 @@ namespace DUFE.Scene
             if (fadeMusicOnLoad == true)
             {
                 AudioManager m = FindObjectOfType<AudioManager>();
-                m.FadeVol(0, transitionTime);
+                m.FadeVol(-80, transitionTime);
             }
             yield return new WaitForSeconds(transitionTime);
 

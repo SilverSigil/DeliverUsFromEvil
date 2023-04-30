@@ -35,7 +35,7 @@ namespace DUFE.Audio
         /// </summary>
         /// <param name="end">end value for volume Master.</param>
         /// <param name="time">time for the fadeout/fadein</param>
-        internal void FadeVol(int end=0, float time = 1f)
+        internal void FadeVol(int end=-80, float time = 1f)
         {
             StartCoroutine(fade(end, time));
         }
@@ -52,6 +52,7 @@ namespace DUFE.Audio
                 currentTime += Time.deltaTime;
                 float newVol = Mathf.Lerp(currentVol, targetValue, currentTime / time);
                 _MasterMixer.SetFloat("Master", Mathf.Log10(newVol) * 20);
+                Debug.Log(newVol);
                 yield return null;
             }
             yield break;
