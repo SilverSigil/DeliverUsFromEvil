@@ -28,6 +28,7 @@ namespace DUFE.Core
         public UnityEvent end;
         [Header("Is the game started ?")]
         private bool startedScene = false;
+        private bool endofScene = false;
         [Header("Scene reference")]
         public TextMeshProUGUI companytxt; 
         public TextMeshProUGUI objectiveTxt;
@@ -55,12 +56,15 @@ namespace DUFE.Core
         {
             if(startedScene == true)
             {
-                timeRemaining -= Time.deltaTime;
-                timeTxt.text = Math.Round(timeRemaining).ToString();
-
-                if (timeRemaining <= 0f)
+                if (timeRemaining <= 0f && endofScene == false)
                 {
+                    endofScene = true;
                     endScene(); 
+                } else if(endofScene == false)
+                {
+                    timeRemaining -= Time.deltaTime;
+                    timeTxt.text = Math.Round(timeRemaining).ToString();
+
                 }
             }
         }
@@ -80,10 +84,15 @@ namespace DUFE.Core
 
         internal void addObjective(Objective objective)
         {
+            companyMoney -= objective.moneyValue;
+            companytxt.text = companyMoney.ToString();
             objectives.Add(objective);
         }
 
-        public void endScene() {
+        public void endScene()
+        {
+            timeRemaining = 0;
+            timeTxt.text = Math.Round(timeRemaining).ToString();
             showResultEnd();
             end?.Invoke();
         }

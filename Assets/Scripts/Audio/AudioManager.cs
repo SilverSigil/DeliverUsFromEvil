@@ -52,7 +52,6 @@ namespace DUFE.Audio
                 currentTime += Time.deltaTime;
                 float newVol = Mathf.Lerp(currentVol, targetValue, currentTime / time);
                 _MasterMixer.SetFloat("Master", Mathf.Log10(newVol) * 20);
-                Debug.Log(newVol);
                 yield return null;
             }
             yield break;

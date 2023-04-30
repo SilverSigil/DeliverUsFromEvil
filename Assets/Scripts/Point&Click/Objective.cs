@@ -14,6 +14,7 @@ namespace DUFE.PointAndClick
     {
         [Header("Sentences shown on ending screen")]
         public string objectiveName;
+        [TextArea]
         public string objectiveResult;
         [Header("Value of the money lost")]
         public float moneyValue; 

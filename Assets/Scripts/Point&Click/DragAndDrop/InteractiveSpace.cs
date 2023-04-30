@@ -21,6 +21,7 @@ public class InteractiveSpace : MonoBehaviour, IDropHandler, IINteractable
         [Space()]
         [Header("Event on item drop")]
         public UnityEvent interactEvent;
+        private bool outcomeReached = false; 
 
         void Start()
         {
@@ -42,10 +43,18 @@ public class InteractiveSpace : MonoBehaviour, IDropHandler, IINteractable
             ///If we find it, we can asssume it's an object that's supposed to create an outcome
             if(itemTarget.itemName == inventorySlot.itemName)
             {
-                Debug.Log("outcome reached");
-                FindAnyObjectByType<SceneManager>().addObjective(GetComponent<Objective>());
-                interactEvent?.Invoke();
-                return true; 
+                if(outcomeReached == false)
+                {
+                    outcomeReached = false;
+                    Debug.Log("outcome reached");
+                    FindAnyObjectByType<SceneManager>().addObjective(GetComponent<Objective>());
+                    interactEvent?.Invoke();
+                    return true;
+                } else
+                {
+
+                    return false;
+                }
             } else
             {
                 return false; 
