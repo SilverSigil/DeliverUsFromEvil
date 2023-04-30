@@ -8,7 +8,10 @@ using UnityEngine.Events;
 
 namespace DUFE.Core
 {
-
+    /// <summary>
+    /// Controls the scene and stores the progress. It is not persistent through scenes. 
+    /// DataHolder will hold the data between scenes.
+    /// </summary>
     public class SceneManager : MonoBehaviour
     {
         [Header("Default Variables")]
@@ -16,7 +19,7 @@ namespace DUFE.Core
         public float timeRemaining = 60f;
         [Header("Main objective")]
         public string objectiveString;
-        [Header("List of Objectives for the level")]
+        [Header("List of Objectives done for the level")]
         public List<Objective> objectives;
         [Header("Company money")]
         public float companyMoney = 95000f;
@@ -36,6 +39,7 @@ namespace DUFE.Core
             companytxt.text = companyMoney.ToString();
             objectiveTxt.text = objectiveString;
             timeTxt.text = timeRemaining.ToString();
+            ///To avoid interaction before end of whatever comes first in scene
             mainCanvas.blocksRaycasts = false; 
         }
 
@@ -66,18 +70,19 @@ namespace DUFE.Core
 
         internal void addObjective(Objective objective)
         {
-            throw new NotImplementedException();
+            objectives.Add(objective);
         }
 
         public void startScene()
         {
+            ///To avoid interaction before end of whatever comes first in scene
             mainCanvas.blocksRaycasts = true;
             startedScene = true; 
         }
 
         public float getTimeRemaining()
         {
-            return (float)System.Math.Round(timeRemaining); 
+            return (float) Math.Round(timeRemaining); 
         }
     }
 

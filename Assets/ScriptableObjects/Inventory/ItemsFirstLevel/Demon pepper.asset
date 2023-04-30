@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 65cc7b4d49714394bb136546f596d415, type: 3}
   m_Name: Demon pepper
   m_EditorClassIdentifier: 
-  itemName: 
-  itemValue: 0
+  itemName: Demon pepper
+  itemValue: 2500
   tags: []
   icon: {fileID: 0}

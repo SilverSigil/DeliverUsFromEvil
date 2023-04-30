@@ -25,7 +25,6 @@ namespace DUFE.PointAndClick.Drag
             parent = GetComponentInParent<HorizontalLayoutGroup>(); 
             canvas = GetComponentInParent<Canvas>();
             defaultPos = this.transform.localPosition;
-            Debug.Log(defaultPos);
             rectTransform = GetComponent<RectTransform>();
             canvasGroup = GetComponent<CanvasGroup>();
 

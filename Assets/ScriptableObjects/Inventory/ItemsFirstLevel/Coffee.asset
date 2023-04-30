@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 65cc7b4d49714394bb136546f596d415, type: 3}
   m_Name: Coffee
   m_EditorClassIdentifier: 
-  itemName: 
-  itemValue: 0
+  itemName: Coffee
+  itemValue: 5000
   tags: []
   icon: {fileID: 0}

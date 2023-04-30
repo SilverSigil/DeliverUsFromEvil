@@ -6,6 +6,9 @@ using UnityEngine.Events;
 
 namespace DUFE.PointAndClick
 {
+    /// <summary>
+    /// Once an outcome has been achieved, the objective object is added to the list of objectives done in sceneManager. 
+    /// </summary>
     [RequireComponent(typeof(InteractiveSpace))]
     public class Objective : MonoBehaviour
     {
@@ -14,21 +17,8 @@ namespace DUFE.PointAndClick
         public string objectiveResult;
         [Header("Value of the money lost")]
         public float moneyValue; 
-        [Header("Event on item drop")]
-        public UnityEvent onDrop; 
-        [Header("Is the objective optional to complete the level ?")]
-        public bool isOptional = false; 
-        // Start is called before the first frame update
-        void Start()
-        {
-
-        }
-
-        // Update is called once per frame
-        void Update()
-        {
-
-        }
+        //[Header("Is the objective optional to complete the level ?")]
+        //public bool isOptional = false; 
     }
 
 

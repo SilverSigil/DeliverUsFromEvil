@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 65cc7b4d49714394bb136546f596d415, type: 3}
   m_Name: Post-it
   m_EditorClassIdentifier: 
-  itemName: 
-  itemValue: 0
+  itemName: Post-It
+  itemValue: 4500
   tags: []
   icon: {fileID: 0}
