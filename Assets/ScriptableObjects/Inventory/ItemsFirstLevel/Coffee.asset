@@ -15,4 +15,4 @@ MonoBehaviour:
   itemName: Coffee
   itemValue: 5000
   tags: []
-  icon: {fileID: 0}
+  icon: {fileID: 21300000, guid: d4edf54581fcc06429b8fc2dc4d59103, type: 3}

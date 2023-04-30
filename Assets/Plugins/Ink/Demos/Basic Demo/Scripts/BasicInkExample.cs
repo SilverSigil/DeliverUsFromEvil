@@ -2,6 +2,8 @@
 using UnityEngine.UI;
 using System;
 using Ink.Runtime;
+using TMPro;
+using UnityEngine.Events;
 
 // This is a super bare bones example of how to play and display a ink story in Unity.
 public class BasicInkExample : MonoBehaviour {
@@ -9,14 +11,19 @@ public class BasicInkExample : MonoBehaviour {
 	
     void Awake () {
 		// Remove the default message
-		RemoveChildren();
-		StartStory();
+		RemoveChildrenChoices();
+		ResetText(); 
 	}
 
+	void ResetText()
+    {
+		dialogueParent.SetActive(false);
+    }
 	// Creates a new Story object with the compiled story which we can then play!
-	void StartStory () {
+	public void StartStory () {
 		story = new Story (inkJSONAsset.text);
         if(OnCreateStory != null) OnCreateStory(story);
+		dialogueParent.SetActive(true);
 		RefreshView();
 	}
 	
@@ -25,10 +32,10 @@ public class BasicInkExample : MonoBehaviour {
 	// Continues over all the lines of text, then displays all the choices. If there are no choices, the story is finished!
 	void RefreshView () {
 		// Remove all the UI on screen
-		RemoveChildren ();
+		RemoveChildrenChoices ();
 		
 		// Read all the content until we can't continue any more
-		while (story.canContinue) {
+		if (story.canContinue) {
 			// Continue gets the next line of the story
 			string text = story.Continue ();
 			// This removes any white space from the text.
@@ -50,10 +57,7 @@ public class BasicInkExample : MonoBehaviour {
 		}
 		// If we've read all the content and there's no choices, the story is finished!
 		else {
-			Button choice = CreateChoiceView("End of story.\nRestart?");
-			choice.onClick.AddListener(delegate{
-				StartStory();
-			});
+			onEndOfDialogue?.Invoke(); 
 		}
 	}
 
@@ -64,34 +68,29 @@ public class BasicInkExample : MonoBehaviour {
 	}
 
 	// Creates a textbox showing the the line of text
-	void CreateContentView (string text) {
-		Text storyText = Instantiate (textPrefab) as Text;
-		storyText.text = text;
-		storyText.transform.SetParent (canvas.transform, false);
+	void CreateContentView (string dialogueLine) {
+		text.text = dialogueLine;
 	}
 
 	// Creates a button showing the choice text
 	Button CreateChoiceView (string text) {
 		// Creates the button from a prefab
 		Button choice = Instantiate (buttonPrefab) as Button;
-		choice.transform.SetParent (canvas.transform, false);
-		
+		choice.transform.SetParent (buttonParent.transform, false);
+
 		// Gets the text from the button prefab
-		Text choiceText = choice.GetComponentInChildren<Text> ();
+		TextMeshProUGUI choiceText = choice.GetComponentInChildren<TextMeshProUGUI> ();
 		choiceText.text = text;
 
-		// Make the button expand to fit the text
-		HorizontalLayoutGroup layoutGroup = choice.GetComponent <HorizontalLayoutGroup> ();
-		layoutGroup.childForceExpandHeight = false;
 
 		return choice;
 	}
 
 	// Destroys all the children of this gameobject (all the UI)
-	void RemoveChildren () {
-		int childCount = canvas.transform.childCount;
+	void RemoveChildrenChoices () {
+		int childCount = buttonParent.transform.childCount;
 		for (int i = childCount - 1; i >= 0; --i) {
-			GameObject.Destroy (canvas.transform.GetChild (i).gameObject);
+			GameObject.Destroy (buttonParent.transform.GetChild (i).gameObject);
 		}
 	}
 
@@ -100,11 +99,14 @@ public class BasicInkExample : MonoBehaviour {
 	public Story story;
 
 	[SerializeField]
-	private Canvas canvas = null;
-
+	private GameObject dialogueParent = null;
 	// UI Prefabs
 	[SerializeField]
-	private Text textPrefab = null;
+	private TextMeshProUGUI text = null;
 	[SerializeField]
 	private Button buttonPrefab = null;
+	[SerializeField]
+	private GameObject buttonParent = null;
+	[SerializeField]
+	public UnityEvent onEndOfDialogue; 
 }

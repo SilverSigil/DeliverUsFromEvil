@@ -3,6 +3,7 @@ using DUFE.PointAndClick;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using TMPro;
 using UnityEngine;
 using UnityEngine.Events;
@@ -18,17 +19,25 @@ namespace DUFE.Core
         [Header("Default Variables")]
         [Header("Time in seconds")]
         public float timeRemaining = 60f;
+
         [Header("Main objective")]
         public string objectiveString;
+
         [Header("List of Objectives done for the level")]
         public List<Objective> objectives;
+        public List<Objective> possibleObjectives;
+
         [Header("Company money")]
         public float companyMoney = 95000f;
+        private float companyMoneyInitial;
+
         [Header("End of scene Event")]
         public UnityEvent end;
+
         [Header("Is the game started ?")]
         private bool startedScene = false;
         private bool endofScene = false;
+
         [Header("Scene reference")]
         public TextMeshProUGUI companytxt; 
         public TextMeshProUGUI objectiveTxt;
@@ -44,6 +53,8 @@ namespace DUFE.Core
 
         void Start()
         {
+            companyMoneyInitial = companyMoney;
+            possibleObjectives = FindObjectsOfType<Objective>(true).ToList(); 
             companytxt.text = companyMoney.ToString();
             objectiveTxt.text = objectiveString;
             timeTxt.text = timeRemaining.ToString();
@@ -60,7 +71,8 @@ namespace DUFE.Core
                 {
                     endofScene = true;
                     endScene(); 
-                } else if(endofScene == false)
+                } 
+                else if(endofScene == false)
                 {
                     timeRemaining -= Time.deltaTime;
                     timeTxt.text = Math.Round(timeRemaining).ToString();
@@ -71,6 +83,7 @@ namespace DUFE.Core
 
         private void showResultEnd()
         {
+            Debug.Log(objectives.Count);
             foreach(Objective c in objectives)
             {
                 GameObject g  = Instantiate(objectivePrefab, objectiveParent.transform);
@@ -89,13 +102,39 @@ namespace DUFE.Core
             objectives.Add(objective);
         }
 
+        public float calculateRating()
+        {
+            float f = 0f;
+            f =  ((companyMoneyInitial-companyMoney / companyMoneyInitial) * 100);
+            switch (f)
+            {
+                case >70f:
+                    f = 5; 
+                    break;
+                case > 50f:
+                    f = 4;
+                    break;
+                case > 30f:
+                    f = 3;
+                    break;
+                case > 20f:
+                    f = 2;
+                    break;
+                default:
+                    f = 1;
+                    break;
+            }
+            return f; 
+        }
         public void endScene()
         {
             timeRemaining = 0;
             timeTxt.text = Math.Round(timeRemaining).ToString();
+            float f  = calculateRating(); 
             showResultEnd();
             end?.Invoke();
         }
+
         public void startScene()
         {
             ///To avoid interaction before end of whatever comes first in scene
@@ -107,6 +146,13 @@ namespace DUFE.Core
         {
             return (float) Math.Round(timeRemaining); 
         }
+
+        public void setTimeRemaining(float f)
+        {
+            timeRemaining = f;
+        }
+
+
     }
 
 }
