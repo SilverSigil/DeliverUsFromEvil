@@ -35,6 +35,7 @@ namespace DUFE.Core
         public UnityEvent end;
 
         [Header("Is the game started ?")]
+        public bool startOnAwake = false;
         private bool startedScene = false;
         private bool endofScene = false;
 
@@ -49,8 +50,14 @@ namespace DUFE.Core
         public GameObject objectiveParent;
         [Header("Prefabs")]
         public GameObject objectivePrefab;
-        private AudioManager am; 
-
+        [Header("Objective reference")]
+        public GameObject ratingObj;
+        [Header("Prefabs")]
+        public GameObject ratingStarNotFilledPrefab;
+        public GameObject ratingStarFilledPrefab;
+        private AudioManager am;
+        [Header("Animator Timer")]
+        public Animator animTimer; 
         void Start()
         {
             companyMoneyInitial = companyMoney;
@@ -60,14 +67,19 @@ namespace DUFE.Core
             timeTxt.text = timeRemaining.ToString();
             ///To avoid interaction before end of whatever comes first in scene
             mainCanvas.blocksRaycasts = false; 
+            if(startOnAwake == true)
+            {
+                startScene(); 
+            }
         }
 
         // Update is called once per frame
         void Update()
         {
+
             if(startedScene == true)
             {
-                if (timeRemaining <= 0f && endofScene == false)
+                if (timeRemaining <= 0f && endofScene == false ||(objectives.Count == possibleObjectives.Count && endofScene == false))
                 {
                     endofScene = true;
                     endScene(); 
@@ -76,6 +88,23 @@ namespace DUFE.Core
                 {
                     timeRemaining -= Time.deltaTime;
                     timeTxt.text = Math.Round(timeRemaining).ToString();
+
+                }
+            }
+        }
+
+        public void generateRating(float f)
+        {
+            for (int i = 0; i < 5; i++)
+            {
+                if (i < f)
+                {
+                    Instantiate(ratingStarFilledPrefab, ratingObj.transform);
+
+                }
+                else
+                {
+                    Instantiate(ratingStarNotFilledPrefab, ratingObj.transform);
 
                 }
             }
@@ -132,14 +161,22 @@ namespace DUFE.Core
             timeTxt.text = Math.Round(timeRemaining).ToString();
             float f  = calculateRating(); 
             showResultEnd();
+            generateRating(f);
             end?.Invoke();
         }
 
         public void startScene()
         {
+            StartCoroutine(timerStart()); 
+        }
+
+        IEnumerator timerStart()
+        {
+            animTimer.SetTrigger("timer");
+            yield return new WaitForSeconds(3f);
             ///To avoid interaction before end of whatever comes first in scene
             mainCanvas.blocksRaycasts = true;
-            startedScene = true; 
+            startedScene = true;
         }
 
         public float getTimeRemaining()

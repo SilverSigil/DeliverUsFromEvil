@@ -15,4 +15,4 @@ MonoBehaviour:
   itemName: Demon pepper
   itemValue: 2500
   tags: []
-  icon: {fileID: 0}
+  icon: {fileID: 21300000, guid: c2fa4f1dc58bb794b9be4516a186735f, type: 3}

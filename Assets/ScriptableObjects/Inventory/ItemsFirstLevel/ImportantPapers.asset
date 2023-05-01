@@ -15,4 +15,4 @@ MonoBehaviour:
   itemName: Important papers
   itemValue: 15000
   tags: []
-  icon: {fileID: 0}
+  icon: {fileID: 21300000, guid: afad9a1093a1b734989af4dbebcb787a, type: 3}

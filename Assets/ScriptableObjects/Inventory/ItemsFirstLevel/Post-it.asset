@@ -15,4 +15,4 @@ MonoBehaviour:
   itemName: Post-It
   itemValue: 4500
   tags: []
-  icon: {fileID: 0}
+  icon: {fileID: 21300000, guid: 6bc3b917cb18f3343841870d611bd579, type: 3}

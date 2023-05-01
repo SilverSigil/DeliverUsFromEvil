@@ -12,8 +12,15 @@ public class Collectable : MonoBehaviour, IINteractable
 
     public void OnInteract()
     {
-        FindObjectOfType<Inventory>().addItemAndGenerate(item);
-        Destroy(gameObject); 
+        Inventory i = FindObjectOfType<Inventory>();
+        if (i.items.Count <= 5)
+        {
+            FindObjectOfType<Inventory>().addItemAndGenerate(item);
+            Destroy(gameObject);
+        } else
+        {
+
+        }
     }
 
 }
